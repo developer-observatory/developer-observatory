@@ -1,0 +1,37 @@
+% extends 'base.html'
+% set active_page = 'tasks'
+% block title
+{{ task.name }}
+% endblock
+% block styles
+% if css
+<style media="screen" type="text/css">
+    {{ css }}
+</style>
+% endif
+% endblock
+% block body
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">{{ task.name }}</h3>
+    </div>
+    <div class="panel-body">
+        % for task_cell in task.cells
+        % if task_cell.cell.cell_type == 'markdown'
+        <div class="markdown">
+            {{ task_cell.cell.source|markdown }}
+        </div>
+        % else
+            % if code_cells and code_cells[task_cell.cell.id]
+            {{ code_cells[task_cell.cell.id]|safe }}
+            % else
+            <pre>{{ task_cell.cell.source }}</pre>
+            % endif
+        % endif
+        % if not loop.last
+        <hr/>
+        % endif
+        % endfor
+    </div>
+</div>
+% endblock

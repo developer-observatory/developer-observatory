@@ -1,0 +1,14 @@
+[Unit]
+Description=Startingpage for our Jupyter Notebook - Copies the task file to the target location
+
+[Service]
+Type=simple
+PIDFile=/var/run/jupyterStartpage.pid
+ExecStart=/usr/bin/python /usr/local/bin/jupyterStartpage.py
+User=jupyter
+Group=jupyter
+WorkingDirectory=/home/jupyter/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

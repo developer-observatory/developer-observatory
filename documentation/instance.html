@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Configuring the instance server</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">Developer Observatory - Documentation</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+    <div class="container"><br>
+<h3>Preconditions:</h3>
+<p>
+<ul>
+<li>An Amazon AWS account</li>
+<li>Target URL where the landing server will listen</li>
+</ul>
+</p>
+
+<h3>Preparations:</h3>
+Boot an EC2 instance with a clean Ubuntu image. Tiny will suffice to configure the instance, however if you are still using the free tier, you can also use the micro instances and take advantage of the free hours.
+
+<br>
+<h3>1) Configuring the target URL</h3>
+<br>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/instance01.png">
+        <img class="img-responsive" src="static/img/instance01.png" alt="Modify the landing URL" style="width:100%">
+        <div class="caption">
+          <p>Open the setupTaskServer.sh in a text editor and modify the landingURL parameter according to the URL where your landing server will listen. You should use HTTPS if possible.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+
+<h3>1b) (Optional) Configure certificate restrictions</h3>
+You may configure that only certain CAs are allowed when connecting to the landing server. To set this option, go to the instance_server/services/submit.py and add the parameter <b>ca_certs</b> to the urllib3.PoolManager command.
+ 
+<br>
+<h3>2) Modify additional packages</h3>
+The setup script can install additional packages if required, simple modify the {apt,pip}-additional-packages.txt files.
+        
+<br>
+<h3>3) Run the setup script:</h3>
+The next step is to run the setup script, it will install all necessary tools, dependencies and configure the services.
+Execute: sudo ./setupTaskServer.sh
+
+<br>
+<h3>4) Create an AMI image on AWS</h3>
+<br>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/instance02_aws_createImage.png">
+        <img class="img-responsive" src="static/img/instance02_aws_createImage.png" alt="Create AMI image" style="width:100%">
+        <div class="caption">
+          <p>Go to the EC2 dashboard and right click your instance server. Now create an image...</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/instance03_aws_createImage2.png">
+        <img class="img-responsive" src="static/img/instance03_aws_createImage2.png" alt="Create AMI image" style="width:100%">
+        <div class="caption">
+          <p>... and ensure that it is terminated on shutdown. Note down the ID of the new AMI image.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+<br>
+<h3>5) Create a security group</h3>
+Now you'll need to create a security group for the instances.
+The security group should be set to:
+Inbound:
+<ul>
+<li>HTTP - 80 TCP</li>
+<li>HTTPS - 443 TCP</li>
+<li>(Optional) SSH - 22 TCP - <font color="red"><b>Only from your static IP!</b></font>
+</ul>
+Outbound:
+<ul>
+<li>HTTPS - 443 TCP - Only to the IP of the landing server</li>
+</ul>
+Note down the security group id.
+<br>
+<br>
+<p><a href="landing.html">Continue with the landing server</a></p>
+<br><br>
+</body>
+
+</html>

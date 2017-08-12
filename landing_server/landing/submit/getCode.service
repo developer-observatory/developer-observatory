@@ -1,0 +1,12 @@
+[Unit]
+Description=GetCode Service for Jupyter Landing Server
+
+[Service]
+Type=simple
+PIDFile=/var/run/jupyterSubmitDB.pid
+ExecStart=/usr/bin/python /usr/local/bin/getCode.py
+User=flaskserver
+Group=flaskserver
+
+[Install]
+WantedBy=multi-user.target

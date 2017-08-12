@@ -1,0 +1,31 @@
+% extends 'base.html'
+% set active_page = 'cells'
+{% block title %}{% if cell %}{{ cell.name }}{% else %}New Cell{% endif %}{% endblock %}
+% block body
+% from "_formhelpers.html" import render_field
+<form method="POST" action="{{ action }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.cell_type, help="Use markdown cells to write introductions or instructions for code cells") }}
+    <div class="code-opt" {% if cell and (cell.cell_type == 'code') %}{% else %}style="display: none;"{% endif %}>
+        {{ render_field(form.collapsed) }}
+    </div>
+    {{ render_field(form.source, help='You can use placeholders in your text or code. <code>%taskX%</code>, <code>%taskX.short%</code> and <code>%taskX.description%</code> can be used to
+        dynamically insert the name, short identifier or description of the task at position X (starting at 0) into a generated notebook.') }}
+    <hr/>
+    <h3>Metadata</h3>
+    % for m in form.cell_metadata
+    {{ render_field(m.form.key, outer_class='metadata-key') }}
+    {{ render_field(m.form.value, outer_class='metadata-value') }}
+    <br/>
+    % endfor
+    <a role="button" class="btn btn-default" onclick="addKeyValue();">Add metadata field</a>
+    <a role="button" id="btnRemove" class="btn btn-default" {% if form.cell_metadata.entries|length < 2 %}style="display: none"{% endif %} onclick="removeKeyValue();">Remove metadata field</a>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+% endblock
+
+% block scripts
+<script src="{{ url_for('nbg.static', filename='js/cell.js') }}"></script>
+% endblock

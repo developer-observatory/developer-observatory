@@ -1,0 +1,32 @@
+body {
+  padding-top: 50px;
+}
+.main-text {
+  padding: 40px 15px;
+}
+
+.alerts {
+  padding: 40px 15px;
+}
+
+code {
+  white-space: pre-wrap;
+}
+
+.markdown {
+  white-space: pre-wrap;
+}
+
+dl {
+  margin-top: 1em;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, .8);
+}
+
+.carousel-control.right, .carousel-control.left {
+    background-image: none;
+    opacity: 1;
+    color: rgba(0,0,0, .8);
+}

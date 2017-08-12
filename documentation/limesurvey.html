@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Configuring LimeSurvey for usage with Developer Observatory</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">Developer Observatory - Documentation</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+    <div class="container"><br>
+<h3>Preconditions:</h3>
+<p>
+<ul>
+<li>A working installation of LimeSurvey</li>
+<li>A URL where the code retrieval service will listen</li>
+</ul>
+</p>
+
+<h3>Preparations:</h3>
+Create a survey and add a hidden question with 2 subquestions. Below you'll find a JavaScript code which is used to retreive the participants code from the server.
+The following steps will show you how to modify it to work with your survey.
+
+<br>
+<h3>JavaScript Code:</h3><br>
+<pre><code>&lt;div id="sourcecode"&gt;
+&lt;pre&gt;Loading...&lt;/pre&gt;
+&lt;/div&gt;
+&lt;script&gt;
+document.getElementsByTagName("head")[0].innerHTML += '&lt;link rel="stylesheet" href="<CSSUrl>/pythonHighlighting.css"&gt;'
+
+document.getElementById("question&lt;number&gt;").hidden = true;
+var UID = document.getElementById("answer&lt;surveyID&gt;X&lt;groupID&gt;X&lt;questionID&gt;SQ&lt;subquestionID&gt;").value
+var TOKEN = document.getElementById("answer&lt;surveyID&gt;X&lt;groupID&gt;X&lt;questionID&gt;SQ&lt;subquestionID&gt;").value
+var codebox = document.getElementById("sourcecode")
+window.jQuery.ajax({
+	url: "https://&lt;YourURL&gt;/getcode/?uid="+UID+"&token="+TOKEN,
+	jsonpCallback: "callBackFunction",
+	dataType: "jsonp",
+	error: function (xhr, status, error) {
+		codebox.innerHTML += "&#x3C;pre&#x3E;Xhr:&#x3C;br&#x3E;" + xhr;
+		codebox.innerHTML += "&#x3C;br&#x3E;&#x3C;br&#x3E;Status:&#x3C;br&#x3E;" + status;
+		codebox.innerHTML += "&#x3C;br&#x3E;&#x3C;br&#x3E;Error:&#x3C;br&#x3E;" + error + "&#x3C;/pre&#x3E;";
+	},
+	success: function (jsonp) {
+		codebox.innerHTML = jsonp.<The name of your question in the output, e.g.: code1>;
+	}
+});
+&lt;/script&gt;</code></pre>
+
+<br>
+<h3>1) Add URL parameter to prefill the hidden questions:</h3>
+<br>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/02_select_survey_general_settings.png">
+        <img class="img-responsive" src="static/img/02_select_survey_general_settings.png" alt="Select Survey Properties" style="width:100%">
+        <div class="caption">
+          <p>Go to the main page of your survey and select "Survey properties" -> "General settings & texts".</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/03_select_survey_url_parameter.png">
+        <img class="img-responsive" src="static/img/03_select_survey_url_parameter.png" alt="Select URL Parameter" style="width:100%">
+        <div class="caption">
+          <p>Now unfold "Panel integration" in the right accordeon menu.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/04_add_survey_url_parameter.png">
+        <img class="img-responsive" src="static/img/04_add_survey_url_parameter.png" alt="Add URL Parameter" style="width:100%">
+        <div class="caption">
+          <p>Here you can add URL parameter which are used for prefilling the hidden answers.<br />
+          Your survey will receive the following two parameters:<br />
+          <ul>
+          <li><b>uid</b> - The id of the user.
+          <li><b>tok</b> - The token of the user.
+          </ul>
+          </p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+
+        
+<br>
+<h3>2) Get the question id of the question you want to hide:</h3>
+<br>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/06_select_hidden_question.png">
+        <img class="img-responsive" src="static/img/06_select_hidden_question.png" alt="Select Hidden Question" style="width:100%">
+        <div class="caption">
+          <p>To get the question id of a question, select the question in the sidebar.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/07_get_question_id.png">
+        <img class="img-responsive" src="static/img/07_get_question_id.png" alt="Get Question ID" style="width:100%">
+        <div class="caption">
+          <p>Now you can either read the id which is written next to the question summary headline or you can read the id at the end of the url.<br> Finally concatenate the string "question" with this id number eg. "question910" and change the JavaScript code accordingly.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+
+<br>
+<h3>3) Retrieve the answer from the hidden / prefilled questions:</h3>
+<br>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/09_get_survey_id.png">
+        <img class="img-responsive" src="static/img/09_get_survey_id.png" alt="Get Survey ID" style="width:100%">
+        <div class="caption">
+          <p>To retrieve the uid and the token you need the answer id of the hidden question. In order to do this you need to concatenate the string "answer" with multiple ids.
+At first the survey id which you can either read next to the surveys name at the top of the page or you can read the survey id from the URL.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/08_get_group_id.png">
+        <img class="img-responsive" src="static/img/08_get_group_id.png" alt="Get Group ID" style="width:100%">
+        <div class="caption">
+          <p>The next is the question group id which you can read next to the question group at the hidden questions page or again read the gid from the URL.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/07_get_question_id.png">
+        <img class="img-responsive" src="static/img/07_get_question_id.png" alt="Get Question ID" style="width:100%">
+        <div class="caption">
+          <p>Now the hidden question id is needed which we already know from part 1.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/10_select_edit_subquestion.png">
+        <img class="img-responsive" src="static/img/10_select_edit_subquestion.png" alt="Edit Subquestions" style="width:100%">
+        <div class="caption">
+          <p>The last id we need is the subquestion code of the value we want to get. Therefore open the hidden questions page and click on "Edit subquestions".</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/11_get_subquestion_code.png">
+        <img class="img-responsive" src="static/img/11_get_subquestion_code.png" alt="Get Subquestion Code" style="width:100%">
+        <div class="caption">
+          <p>There you can read the code of each value in the displayed table.
+To create the complete answer: concatenate "answer", survey id, "X", group id, "X", question id and subquestion code.
+It should now look like "answer123456X79X910SQ001" and you can replace it in the sourcecode accordingly.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+<br>
+<h3>4) Replace &lt;YourURL&gt with your domain where the landing server is running</h3>
+<br>
+<h3>5) Replace &lt;CSSURL&gt with a URL where you are hosting a CSS file for code highlighting, an example generated with Pygments can be found <a href="static/css/pythonHighlighting.css">here</a></h3>
+<br>
+<h3>5) Copy the JavaScript source code into the questions:</h3>
+<br>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/12_select_edit_question.png">
+        <img class="img-responsive" src="static/img/12_select_edit_question.png" alt="Select Edit Question" style="width:100%">
+        <div class="caption">
+          <p>Go to the main page of the question where you want to show the participant code. Then you click on the "Edit" button.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/13_select_source_view.png">
+        <img class="img-responsive" src="static/img/13_select_source_view.png" alt="Select Source View" style="width:100%">
+        <div class="caption">
+          <p>Now there is a editor displayed for entering a question. Change the editor's view to the source view.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+  
+  <div class="col-md-4">
+    <div class="thumbnail">
+        <div class="caption">
+          <p>Replace the code id in the success branch of the JavaScript code to load the correct code for the questions.</p>
+        </div>
+    </div>
+  </div>
+ </div>
+ <div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/14_add_JS_code_to_view.png">
+        <img class="img-responsive" src="static/img/14_add_JS_code_to_view.png" alt="Add JavaScript Code" style="width:100%">
+        <div class="caption">
+          <p>Here you can enter html tags eg. script tags to enter the JS sourcecode.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+<p><a href="landing.html">Continue with the landing server</a></p>
+</div>
+</div>
+</body>
+
+</html>

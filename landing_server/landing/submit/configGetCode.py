@@ -1,0 +1,1 @@
+SQLALCHEMY_DATABASE_URI = "postgresql://read_only_user:%pwUser3%@localhost/notebook"

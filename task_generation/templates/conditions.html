@@ -1,0 +1,57 @@
+% extends 'base.html'
+% set active_page = 'conditions'
+% block title
+Conditions
+% endblock
+% block modals
+<div class="modal" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="delModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the condition?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <form  style="display: inline;" method="post" action={{ url_for('nbg.list_conditions') }}>
+            <button name="delete" value="" class="btn btn-primary">Delete</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+% endblock
+% block body
+% if condition_list
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Actions</th>
+        <th>Keys</th>
+    </tr>
+    </thead>
+    % for condition in condition_list
+    <tr>
+        <td>{{ condition.name }}</td>
+        <td>
+            <a class="btn btn-xs btn-default" href="{{ url_for('nbg.edit_condition', condition_id=condition.id) }}">Edit</a>
+            <a class="btn btn-xs btn-default" data-toggle="modal" href="#delModal" data-id="{{ condition.id }}" data-name="{{ condition.name }}">Delete</a>
+        </td>
+        <td>
+            % for pair in condition.pairs
+            {{ pair.key }}{{ ', ' if not loop.last }}
+            % endfor
+        </td>
+    </tr>
+    % endfor
+</table>
+% endif
+<a class="btn btn-primary" href="{{ url_for('nbg.create_condition') }}" role="button">New Condition</a>
+% endblock
+% block scripts
+<script src="{{ url_for('nbg.static', filename='js/deletemodal.js') }}"></script>
+% endblock

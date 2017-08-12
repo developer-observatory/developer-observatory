@@ -1,0 +1,54 @@
+{% macro render_field(field) %}
+    % set help = kwargs.pop('help', False)
+    % set outer_class = kwargs.pop('outer_class', '')
+    % set label_text = kwargs.pop('label_text', field.label.text)
+    % set print_label = kwargs.pop('print_label', True)
+    % if help
+    % set help_id = 'help-'+field.id
+    % do kwargs.update({'aria-describedby': help_id})
+    % endif
+
+    % if field.type == 'BooleanField'
+    <div class="checkbox">
+        <label>
+          {{ field(required=field.flags.required, **kwargs)|safe }}
+            % if print_label
+            {{ label_text }}
+            % endif
+        </label>
+        % if help
+            <p id="{{ help_id }}" class="help-block">{{ help }}</p>
+        % endif
+    </div>
+    % elif field.type == 'MultiCheckboxField'
+    {{ field.label(text=label_text) }}
+    <div class="form-group {{ outer_class }}" id="{{ field.id }}">
+        % for subfield in field
+        <label class="checkbox-inline">
+            {{ subfield(checked= subfield.data in field.data if field.data else false, **kwargs)|safe }}
+            % if print_label
+            {{ subfield.label.text }}
+            % endif
+        </label>
+        % endfor
+    </div>
+    % else
+    <div class="form-group {{ outer_class }}">
+        % if print_label
+        {{ field.label(class="control-label", text=label_text) }}
+        % endif
+        {{ field(class='form-control', required=field.flags.required, **kwargs)|safe }}
+        % if help
+            <p id="{{ help_id }}" class="help-block">{{ help|safe }}</p>
+        % endif
+    </div>
+    % endif
+
+    % if field.errors
+        <ul>
+            % for error in field.errors
+                <li>{{ error }}</li>
+            % endfor
+        </ul>
+    % endif
+{% endmacro %}

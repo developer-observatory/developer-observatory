@@ -1,0 +1,14 @@
+[Unit]
+Description=Submit Service for Jupyter Server
+
+[Service]
+Type=simple
+PIDFile=/var/run/jupyterSubmit.pid
+ExecStart=/usr/bin/python /usr/local/bin/jupyterSubmit.py
+User=jupyter
+Group=jupyter
+WorkingDirectory=/home/jupyter/
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

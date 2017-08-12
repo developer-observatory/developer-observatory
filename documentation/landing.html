@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Configuring the landing server</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">Developer Observatory - Documentation</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                </div>
+            </div>
+        </nav>
+    <div class="container"><br>
+<h3>Preconditions:</h3>
+<p>
+<ul>
+<li>An Amazon AWS account</li>
+<li>A prepared AMI image</li>
+<li>A prepared security group</li>
+</ul>
+</p>
+
+<h3>Preparations:</h3>
+Boot an EC2 instance with a clean Ubuntu image. Tiny will probably suffice, however if you are still using the free tier, you can also use the micro instances and take advantage of the free hours.
+
+<br>
+<h3>1) Configure the static texts and consent form</h3>
+Modify the static texts in landing/webpage/static/{intro,consent,howTo}.php and place a pdf of the consent form in landing/webpage/static/ConsentForm.pdf
+
+<br>
+<h3>2) Prepare a token server</h3>
+The landing server will verify tokens for each participant and invalidate them after usage.
+The protocol for this procedure is simple:
+<ul>
+<li>A token always consists of 2 parts, each being 12 letter long with only alpha-numeric values</li>
+<li>A URL is called to verify a token: <code>/gettoken/<string:token>/<string:token2></code>. The return value is either "Valid", "Expired" or "Invalid"</li>
+<li>A URL is called to invalidate a token after usage: <code>/settoken/<string:token>/<string:token2></code></li>
+</ul>
+
+A token server is not part of Developer Observatory. UIDs and tokens are expected to be 12 letter alpha numeric lowercase strings. You can generate such a token for example with <code>random = str(uuid.uuid4()).replace('-', '')[0:12]</code>. If you do not want to have a token management, then assign the UID and token randomly when a participant starts and create a URL that always returns <code>Valid</code>.
+
+<br>
+<h3>3) Modify configuration</h3>
+Most settings can be found in setupLandingScript.sh
+
+The relevant settings are:
+<ul>
+<li>finalSurveyURL - url to the exit survey</li>
+<li>dailyMaxInstances - The amount of instances that can be started by a single IP.</li>
+<li>maxInstances - The amount of participants that may start the study - Signing the consent form counts as starting</li>
+<li>recaptchaSiteKey+recaptchaSecret - Api keys for reCAPTCHA - Register API keys at https://www.google.com/recaptcha/admin</li>
+<li>awsAccessKey+awsSecretKey - Access tokens for Amazon</li>
+<li>awsRegion - Region to start the instances in</li>
+<li>awsImageId + awsInstanceType + awsSecurityGroupID - Settings for the task instance</li>
+<li>poolSize - The amount of instances+1 to hold in the pool. Note that this will start instances, but not shut them down.</li>
+<li>tokenGetUrl+tokenSetUrl - Token URLs to verify and invalidate tokens of participants.</li>
+</ul>
+        
+<br>
+<h3>4) Run the setup script:</h3>
+The next step is to run the setup script, it will install all necessary tools, dependencies and configure the services.
+Execute: sudo ./setupLandingServer.sh
+
+<h3>5) Enable cronjobs</h3>
+The landing server is now ready, you may test it by invoking <code>php /var/www/tools/checkServerPool.php</code> once. You should now have a single instance running in EC2 called "StudyPool".
+Go to the landing URL and use <code>?token=1234567890ab&token2=ba0987654321</code> as parameter to test the remaining part.
+
+The following lines can be added to the crontab.
+<code><pre>
+*/5 * * * * nohup php /var/www/tools/checkServerPool.php  >> /home/ubuntu/cronServer.log 2>&1 & echo $!
+2,17,32,47 * * * * nohup php /var/www/tools/resetCounter.php  >> /home/ubuntu/cronServer.log 2>&1 & echo $!
+5,25,45 * * * * nohup php /var/www/tools/killUnusedInstances.php  >> /home/ubuntu/cronKillInstance.log 2>&1 & echo $!
+</pre></code>
+
+<br>
+<h3>6) Weighting of conditions:</h3>
+If you notice that certain conditions have a higher dropout ratio than others, you might want to assign more participants to those conditions.
+The /var/www/html/howTo.php file contains code to assign more participants to certain code. Uncomment line 95-115 and switch the condition numbers accordingly. Line 117-124 have to be removed then.
+
+<br>
+You are now ready to run a study with Developer Observatory!<br>
+Results can be found in the postgres database "notebook" and the tables:
+"createdInstances", "jupyter" and "copy_pasted_code".
+</div>
+</body>
+
+</html>

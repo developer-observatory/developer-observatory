@@ -1,0 +1,70 @@
+% extends 'base.html'
+% set active_page = "tasks"
+% block title
+Tasks
+% endblock
+% block modals
+<div class="modal" id="delModal" tabindex="-1" role="dialog" aria-labelledby="delModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="delModalLabel">Confirm Deletion</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete the task?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <form  style="display: inline;" method="post" action={{ url_for('nbg.list_tasks') }}>
+            <button name="delete" value="" class="btn btn-primary">Delete</button>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+% endblock
+% block body
+% if task_list
+<table class="table">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Short ID</th>
+        <th>Actions</th>
+        <th>Cells <small>(<mark>Markdown</mark> or <code>code</code>)</small></th>
+    </tr>
+    </thead>
+    % for task in task_list
+    <tr>
+        <td>{{ task.name }}</td>
+        <td>{{ task.short }}</td>
+        <td>
+            <a class="btn btn-xs btn-default" href="{{ url_for('nbg.view_task', task_id=task.id) }}">View</a>
+            <a class="btn btn-xs btn-default" href="{{ url_for('nbg.edit_task', task_id=task.id) }}">Edit</a>
+            <a class="btn btn-xs btn-default" data-toggle="modal" href="#delModal" data-id="{{ task.id }}" data-name="{{ task.name }}">Delete</a>
+        </td>
+        <td>
+            % for task_cell in task.cells
+            % if task_cell.cell.cell_type == 'markdown'
+            <mark>{{ task_cell.cell.name }}</mark>{{ ', ' if not loop.last }}
+            % elif task_cell.cell.cell_type == 'code'
+            <code>{{ task_cell.cell.name }}</code>{{ ', ' if not loop.last }}
+            % else
+            {{ task_cell.cell.name }}{{ ', ' if not loop.last }}
+            % endif
+            % endfor
+        </td>
+    </tr>
+    % endfor
+</table>
+% endif
+% if cells_exist
+<a class="btn btn-primary" href="{{ url_for('nbg.create_task') }}" role="button">New Task</a>
+% else
+<p>To create a task, you need to create a <a href="{{ url_for('nbg.list_cells')}}">Cell</a> first.</p>
+% endif
+% endblock
+% block scripts
+<script src="{{ url_for('nbg.static', filename='js/deletemodal.js') }}"></script>
+% endblock

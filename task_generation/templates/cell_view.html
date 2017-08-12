@@ -1,0 +1,40 @@
+% extends 'base.html'
+% set active_page = 'cells'
+{% block title %}{{ cell.name }}{% endblock %}
+% block styles
+% if css
+<style media="screen" type="text/css">
+    {{ css }}
+</style>
+% endif
+% endblock
+% block body
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title"><span class="label label-default">{{ cell.cell_type }}</span> {{ cell.name }}</h3>
+      % if cell.cell_type == 'code' and cell.collapsed
+      <br/>(Cell collapsed by default)
+      % endif
+  </div>
+  <div class="panel-body">
+    % if cell.cell_type == 'markdown'
+      <div class="markdown">
+    {{ cell.source|markdown }}
+      </div>
+    % else
+      % if cell.cell_metadata
+      <h4>Metadata:</h4>
+      <pre>{{ cell.cell_metadata }}</pre>
+      <hr/>
+      % endif
+      <h4>Source:</h4>
+      % if code
+      {{ code|safe }}
+      % else
+      <pre>{{ cell.source }}</pre>
+      % endif
+    % endif
+  </div>
+</div>
+
+% endblock

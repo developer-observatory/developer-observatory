@@ -1,0 +1,45 @@
+% extends 'base.html'
+% set active_page = 'notebooks'
+% block title
+Generate Notebooks
+% endblock
+% block body
+% from "_formhelpers.html" import render_field
+<h3>Generate Notebooks from template {{ nb.name }}</h3>
+<form id="nb-options" action="{{ url_for('nbg.generate_notebooks', nb_id=nb.id) }}" method="POST">
+    {{ form.csrf_token }}
+    {{ render_field(form.file_prefix) }}
+    <label class="checkbox-inline">
+        {{ form.include_fixed(checked =  form.include_fixed.data) }}
+        {{ form.include_fixed.label.text }}
+    </label>
+    <hr/>
+    {{ render_field(form.conditions, class='condition-box') }}
+<hr/>
+    <button class="btn btn-sm btn-default" name="refresh" value="refresh">Refresh Preview</button>
+</form>
+<br/>
+<p>Below is a preview of the {{ nb_names|length }} files that will be generated:</p>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Filename</td>
+        </tr>
+    </thead>
+    <tbody>
+    % for name in nb_names
+    <tr>
+        <td>
+            {{ name }}
+        </td>
+    </tr>
+    % endfor
+    </tbody>
+</table>
+<button class="btn btn-primary" form="nb-options" name="generate" value="generate" id="btn-generate">Generate Notebook Files</button>
+<br/>
+<small id="txt-refresh" style="display: none;">Please refresh the preview first to make sure which files will be generated.</small>
+% endblock
+% block scripts
+<script src="{{ url_for('static', filename='js/generator.js') }}"></script>
+% endblock scripts

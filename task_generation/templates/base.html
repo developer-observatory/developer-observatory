@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    % block head
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--link rel="icon" href="../../favicon.ico"-->
+
+    <title>{% block title %}{% endblock %} - Notebook Generator</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('nbg.static', filename='main.css') }}" rel="stylesheet">
+    % block styles
+    % endblock
+    % endblock
+</head>
+
+<body>
+
+% set active_page = active_page|default('index')
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ url_for('nbg.index') }}">Notebook Generator</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="{{ 'active' if active_page == 'index' else '' }}"><a href="{{ url_for('nbg.index') }}">Home</a></li>
+                <li class="{{ 'active' if active_page == 'tutorial' else '' }}"><a href="{{ url_for('nbg.show_tutorial') }}">Tutorial</a></li>
+                <li class="{{ 'active' if active_page == 'cells' else '' }}"><a href="{{ url_for('nbg.list_cells') }}">Cells</a></li>
+                <li class="{{ 'active' if active_page == 'tasks' else '' }}"><a href="{{ url_for('nbg.list_tasks') }}">Tasks</a></li>
+                <li class="{{ 'active' if active_page == 'conditions' else '' }}"><a href="{{ url_for('nbg.list_conditions') }}">Conditions</a></li>
+                <li class="{{ 'active' if active_page == 'notebooks' else '' }}"><a href="{{ url_for('nbg.list_notebooks') }}">Notebooks</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+% block modals
+% endblock
+
+<div class="container-fluid">
+    <div class="col-md-2 alerts">
+        % with messages = get_flashed_messages(with_categories=true)
+            % if messages
+                % for category, message in messages
+                    <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        {{ message }}
+                    </div>
+                % endfor
+            % endif
+        % endwith
+        % if form and form.errors
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        There were problems with your submission.
+                    </div>
+        % endif
+    </div>
+
+    <div class="col-md-8 main-text">
+        % block body
+            Content under construction.
+        % endblock
+    </div>
+
+    <div class="col-md-2"></div>
+
+</div><!-- /.container -->
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+% block scripts
+% endblock
+</body>
+</html>

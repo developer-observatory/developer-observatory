@@ -1,0 +1,34 @@
+% extends 'base.html'
+% set active_page = 'conditions'
+% block title
+% if condition
+{{ condition.name }}
+% else
+New Condition
+% endif
+% endblock
+% block body
+% from "_formhelpers.html" import render_field
+<form method="POST" action="{{ action }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.name) }}
+    <hr/>
+    <h3>Placeholders</h3>
+    <p>Define placeholders and values that will be used in notebook generation with this condition.
+       If you e.g. have two conditions for different libraries, you can create a placeholder with the key "url" for each condition that dynamically
+        replaces any occurrence of "%url%" in any cell source with the url to the respective library documentation.
+    </p>
+    % for p in form.pairs
+    {{ render_field(p.form.key, outer_class='pair-key') }}
+    {{ render_field(p.form.value, outer_class='pair-value') }}
+    <br/>
+    % endfor
+    <a role="button" class="btn btn-default" onclick="addKeyValue();">Add placeholder</a>
+    <a role="button" id="btnRemove" class="btn btn-default" {% if form.pairs.entries|length < 2 %}style="display: none"{% endif %} onclick="removeKeyValue();">Remove placeholder</a>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+% endblock
+% block scripts
+<script src="{{ url_for('nbg.static', filename='js/condition.js') }}"></script>
+% endblock

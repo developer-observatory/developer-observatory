@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Configuring LimeSurvey for usage with Developer Observatory</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="static/css/main.css" rel="stylesheet">
+</head>
+
+<body>
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="index.html">Developer Observatory - Documentation</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                </div><!--/.nav-collapse -->
+            </div>
+        </nav>
+    <div class="container"><br>
+<h3>Preconditions:</h3>
+<p>
+<ul>
+<li>Python 3</li>
+<li>Flask</li>
+</ul>
+</p>
+
+We created a tool to help you generate the task files.
+A notebook file <b>always</b> has to follow the scheme:<br />
+<ul>
+<li>Introduction (1 markdown cell)</li>
+<li>any number of tasks (1 markdown cell + 1 code cell)</li>
+</ul>
+If you want to change this, you'll have to manually modify the JavaScript in instance_server/template/custom.js
+
+If you are using a completly different set of tasks, for example, symetric vs asymetric encryption, then make sure that both files contain the same amount of cells+tasks. Incase that you have a different amount of tasks, you can also modify instance_server/template/custom.js to return the correct amount depending on the amount of cells in the document (<code>$('.cell').length</code>)
+
+
+<br>
+<h3>1) Start the notebook generator</h3>
+Install the required dependencies with <code>pip3 install -r requirements.txt</code>, run <code>python3 notebookgen.py</code> and open <a href="http://localhost:5000" target="_blank">http://localhost:5000</a> in your webbrowser.
+        
+<br>
+<h3>2) Generate Cells</h3>
+Switch to the Cells tab and click on "New Cell".
+You may now create Markdown (text only) cells and Code cells.
+A task will always need a Markdown cell followed by a Code cell except for the introduction which consists of a single Markdown cell.
+Give the Code cells a metadata field called "tasknum" with a number to identify the task later on.
+
+<br>
+<h3>3) Generate Tasks</h3>
+Switch to the Tasks tab and click on "New Task" and select the appropriate cells for the task.
+<br>
+<h3>4) Create Conditions</h3>
+Switch to the Conditions tab and create conditions which are used to replace placeholders in cells.
+
+<br>
+<h3>5) Generate Notebooks</h3>
+The last step is to generate the notebooks. Switch to the Notebooks tab and create a new notebook template. You can now select which tasks should be included in this notebook file.
+You can also select if certain tasks should be at a fixed position. The intro should always be fixed to the first position, followed by tasks in latin squares order.
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <a href="static/img/generator01.png">
+        <img class="img-responsive" src="static/img/generator01.png" alt="An example notebook" style="width:100%">
+        <div class="caption">
+          <p>This is how a sample study would look like.</p>
+        </div>
+      </a>
+    </div>
+  </div>
+ </div>
+<br>
+
+<a href="limesurvey.html">Continue with LimeSurvey</a>
+<br><br>
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+.idea/
+flaskenv/
+*.sqlite
+__pycache__/
+*.py[co]
+generated/
+tmp/db.sqlite

@@ -1,0 +1,30 @@
+% extends 'base.html'
+% set active_page='tasks'
+% block title
+% if task
+{{ task.name }}
+% else
+New Task
+% endif
+% endblock
+% block body
+% from '_formhelpers.html' import render_field
+<form id="taskform" method="post" action="{{ action }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.short, help="Max three characters to easily identify this task, e.g. \"1\" or \"T1a\"") }}
+    {{ render_field(form.description) }}
+    <hr/>
+    <h3>Cells</h3>
+    % for field in form.cells.entries
+    {{ render_field(field, outer_class='cell-field', label_text='Cell ' ~ loop.index) }}
+    % endfor
+    <a role="button" class="btn btn-default" onclick="addCell();">Add cell</a>
+    <a role="button" id="btnRemove" class="btn btn-default" {% if form.cells.entries|length < 2 %}style="display: none"{% endif %} onclick="removeCell();">Remove cell</a>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+% endblock
+% block scripts
+<script src="{{ url_for('nbg.static', filename='js/task.js') }}"></script>
+% endblock

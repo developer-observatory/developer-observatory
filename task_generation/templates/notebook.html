@@ -1,0 +1,95 @@
+% extends 'base.html'
+% set active_page = 'notebooks'
+% block title
+% if notebook
+{{ notebook.name }}
+% else
+New Notebook
+% endif
+% endblock
+
+% block body
+% from "_formhelpers.html" import render_field
+<form method="POST" action="{{ action }}">
+    {{ form.csrf_token }}
+    {{ render_field(form.name) }}
+    {{ render_field(form.tasks, class='taskbox') }}
+    <hr/>
+    <h3>Ordering Options</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Position</th>
+            <th>Order</th>
+            <th>Tasks</th>
+        </tr>
+        </thead>
+        % for option in form.order_options
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ option.order_type(class='typeselector') }}</td>
+            <td>
+                <div class="tasks-fixed" {{ 'style=display:none' if option.order_type.data != 'fixed' }}>
+                    % for task in option.tasks_fixed
+                    <label class="radio-inline {{ 'optiontask-'+ task.data|string }}"
+                           {% if task.data not in selected_tasks %}style="display: none"{% endif %}>
+                        % if option.tasks_fixed.data == 'None' and loop.first
+                        {{ task(checked=True) }}
+                        % else
+                        {{ task }}
+                        % endif
+                        {{ task.label.text }}
+                    </label>
+                    % endfor
+                </div>
+                % if option.errors.tasks_fixed
+                % for error in option.errors.tasks_fixed
+                <ul>
+                    <li>{{ error }}</li>
+                </ul>
+                % endfor
+                % endif
+                <div class="tasks-random" {{ 'style=display:none' if option.order_type.data != 'random' }}>
+                    % for task in option.tasks_random
+                    <label class="checkbox-inline {{ 'optiontask-'+ task.data|string }}"
+                           {% if task.data not in selected_tasks %}style="display: none"{% endif %}>
+                        {{ task }}
+                        {{ task.label.text }}
+                    </label>
+                    % endfor
+                </div>
+                % if option.errors.tasks_random
+                % for error in option.errors.tasks_random
+                <ul>
+                    <li>{{ error }}</li>
+                </ul>
+                % endfor
+                % endif
+            </td>
+        </tr>
+        % endfor
+    </table>
+    <button type="button" class="btn btn-default" onclick="addOption();">Add option</button>
+    <button type="button" id="btnRemove" class="btn btn-default"
+            {% if form.order_options.entries|length < 2 %}style="display: none"{% endif %} onclick="removeOption();">
+        Remove option
+    </button>
+    <small>
+        <dl class="dl-horizontal">
+            <dt>Fixed</dt>
+            <dd>The selected task will appear at the specified position in every notebook.</dd>
+            <dt>Latin Square</dt>
+            <dd>The order of the selected tasks will be permutated according to the Latin Squares method (max. 5
+                tasks)
+            </dd>
+        </dl>
+    </small>
+    <hr/>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
+
+% endblock
+
+% block scripts
+<script src="{{ url_for('nbg.static', filename='js/notebook.js') }}"></script>
+% endblock
