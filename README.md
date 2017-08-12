@@ -23,12 +23,12 @@ If you have questions or feedback feel free to contact us: contact@developer-obs
 
 If you use Developer Observatory in a scientific publication, we would appreciate citations using this Bibtex entry:
 
->@inproceedings {205863,
->  author = {Christian Stransky and Yasemin Acar and Duc Cuong Nguyen and Dominik Wermke and Doowon Kim and Elissa M. Redmiles and Michael Backes and Simson Garfinkel and Michelle L. Mazurek and Sascha Fahl},
->  title = {Lessons Learned from Using an Online Platform to Conduct Large-Scale, Online Controlled Security Experiments with Software Developers},
+>@inproceedings {205863,  
+>  author = {Christian Stransky and Yasemin Acar and Duc Cuong Nguyen and Dominik Wermke and Doowon Kim and Elissa M. Redmiles and Michael Backes and Simson Garfinkel and Michelle L. Mazurek and Sascha Fahl},  
+>  title = {Lessons Learned from Using an Online Platform to Conduct Large-Scale, Online Controlled Security Experiments with Software Developers},  
 >  booktitle = {10th USENIX Workshop on Cyber Security Experimentation and Test (CSET 17)},
->  year = {2017},
->  address = {Vancouver, BC},
->  url = {https://www.usenix.org/conference/cset17/workshop-program/presentation/stransky},
->  publisher = {USENIX Association},
+>  year = {2017},  
+>  address = {Vancouver, BC},  
+>  url = {https://www.usenix.org/conference/cset17/workshop-program/presentation/stransky},  
+>  publisher = {USENIX Association},  
 >}
