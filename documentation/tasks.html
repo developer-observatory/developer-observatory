@@ -2,84 +2,266 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>Configuring LimeSurvey for usage with Developer Observatory</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="static/css/main.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Configuring LimeSurvey for usage with Developer Observatory</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="static/css/main.css" rel="stylesheet">
 </head>
 
 <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="index.html">Developer Observatory - Documentation</a>
-                </div>
-                <div id="navbar" class="collapse navbar-collapse">
-                </div><!--/.nav-collapse -->
-            </div>
-        </nav>
-    <div class="container"><br>
-<h3>Preconditions:</h3>
-<p>
-<ul>
-<li>Python 3</li>
-<li>Flask</li>
-</ul>
-</p>
-
-We created a tool to help you generate the task files.
-A notebook file <b>always</b> has to follow the scheme:<br />
-<ul>
-<li>Introduction (1 markdown cell)</li>
-<li>any number of tasks (1 markdown cell + 1 code cell)</li>
-</ul>
-If you want to change this, you'll have to manually modify the JavaScript in instance_server/template/custom.js
-
-If you are using a completly different set of tasks, for example, symetric vs asymetric encryption, then make sure that both files contain the same amount of cells+tasks. Incase that you have a different amount of tasks, you can also modify instance_server/template/custom.js to return the correct amount depending on the amount of cells in the document (<code>$('.cell').length</code>)
-
-
-<br>
-<h3>1) Start the notebook generator</h3>
-Install the required dependencies with <code>pip3 install -r requirements.txt</code>, run <code>python3 notebookgen.py</code> and open <a href="http://localhost:5000" target="_blank">http://localhost:5000</a> in your webbrowser.
-        
-<br>
-<h3>2) Generate Cells</h3>
-Switch to the Cells tab and click on "New Cell".
-You may now create Markdown (text only) cells and Code cells.
-A task will always need a Markdown cell followed by a Code cell except for the introduction which consists of a single Markdown cell.
-Give the Code cells a metadata field called "tasknum" with a number to identify the task later on.
-
-<br>
-<h3>3) Generate Tasks</h3>
-Switch to the Tasks tab and click on "New Task" and select the appropriate cells for the task.
-<br>
-<h3>4) Create Conditions</h3>
-Switch to the Conditions tab and create conditions which are used to replace placeholders in cells.
-
-<br>
-<h3>5) Generate Notebooks</h3>
-The last step is to generate the notebooks. Switch to the Notebooks tab and create a new notebook template. You can now select which tasks should be included in this notebook file.
-You can also select if certain tasks should be at a fixed position. The intro should always be fixed to the first position, followed by tasks in latin squares order.
-<div class="row">
-  <div class="col-md-4">
-    <div class="thumbnail">
-      <a href="static/img/generator01.png">
-        <img class="img-responsive" src="static/img/generator01.png" alt="An example notebook" style="width:100%">
-        <div class="caption">
-          <p>This is how a sample study would look like.</p>
-        </div>
-      </a>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.html">Developer Observatory - Documentation</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+      </div><!--/.nav-collapse -->
     </div>
-  </div>
- </div>
-<br>
+  </nav>
+  <div class="container"><br>
+    <h3>Preconditions:</h3>    
+    <p>
+      <ul>
+        <li>Python 3</li>
+        <li>Flask</li>
+      </ul>
+    </p>
+    <p>
+      We created a tool to help you generate the task files. A notebook file <b>always</b> has to follow the scheme:
+    </p>
+    <ul>
+      <li>Introduction (1 markdown cell)</li>
+      <li>any number of tasks (1 markdown cell + 1 code cell)</li>
+    </ul>
+    <p>
+    If you want to change this, you'll have to manually modify the JavaScript in instance_server/template/custom.js
+    </p>
+    <p>
+    If you are using a completly different set of tasks, for example, symetric vs asymetric encryption, then make sure that both files contain the same amount of cells+tasks. Incase that you have a different amount of tasks, you can also modify instance_server/template/custom.js to return the correct amount depending on the amount of cells in the document (<code>$('.cell').length</code>)
+    </p>
 
-<a href="limesurvey.html">Continue with LimeSurvey</a>
-<br><br>
-</body>
+    <br>
+    <h3>1) Start the notebook generator</h3>
+    Install the required dependencies with <code>pip3 install -r requirements.txt</code>, run <code>python3 notebookgen.py</code> and open <a href="http://localhost:5000" target="_blank">http://localhost:5000</a> in your webbrowser.
 
-</html>
+    <br>
+    <h3>2) Generate Cells</h3>
+
+    Switch to the Cells tab and click on "New Cell".
+    <div class="row">
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <a href="static/img/01_cell_start.png">
+            <img class="img-responsive" src="static/img/01_cell_start.png" alt="Cell start" style="width:100%">
+            <div class="caption">
+              <p>(1) The building blocks of Jupyter notebooks are Cells. Click on New Cell under Cells to create your first one.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    You may now create Markdown (text only) cells and Code cells.
+    A task will always need a Markdown cell followed by a Code cell except for the introduction which consists of a single Markdown cell.
+    <div class="row">
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <a href="static/img/02_cell_edit.png">
+            <img class="img-responsive" src="static/img/02_cell_edit.png" alt="Cell start" style="width:100%">
+            <div class="caption">
+              <p>(2) We create a cell to introduce our study. We use placeholders enclosed in percentage signs. %website% and %URL% are going to be replaced depending on the condition. %task1.description% dynamically references the second task since the first task is going to be this introduction and the tasks after that are going to change order.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <a href="static/img/03_cells_1.png">
+            <img class="img-responsive" src="static/img/03_cells_1.png" alt="Cells" style="width:100%">
+            <div class="caption">
+              <p>(3) Here we can see all cells we created so far. Next we create cells for our first programming task.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <a href="static/img/04_task_intro.png">
+            <img class="img-responsive" src="static/img/04_task_intro.png" alt="Task intro" style="width:100%">
+            <div class="caption">
+              <p>(4) We want to introduce our first task with some markdown.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <a href="static/img/05_code_cell.png">
+            <img class="img-responsive" src="static/img/05_code_cell.png" alt="Code cell" style="width:100%">
+            <div class="caption">
+              <p>(5) This is our first code cell, the heart of our programming task. Participants will be able to edit this code and execute it. 
+                <span style="color:red;">Mandatory: </span>Give the Code cells a metadata field called <b>"tasknum"</b> with a <b>number</b> so that the task can be identify by the software.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      <h3>3) Generate Tasks</h3>
+      Switch to the Tasks tab and click on "New Task" and select the appropriate cells for the task.
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/06_task_start.png">
+              <img class="img-responsive" src="static/img/06_task_start.png" alt="Cells" style="width:100%">
+              <div class="caption">
+                <p>(6) Now that we created some cells, we have to incorporate them into tasks.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/07_task_intro.png">
+              <img class="img-responsive" src="static/img/07_task_intro.png" alt="Task intro" style="width:100%">
+              <div class="caption">
+                <p>(7) Our introduction task only contains the single cell with our introduction markdown.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/08_task_1.png">
+              <img class="img-responsive" src="static/img/08_task_1.png" alt="Task 1" style="width:100%">
+              <div class="caption">
+                <p>(8) The first programming task consists of the two cells we created last.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/09_tasks.png">
+              <img class="img-responsive" src="static/img/09_tasks.png" alt="Tasks" style="width:100%">
+              <div class="caption">
+                <p>(9) You might want to come up with some more cells and tasks.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <br>
+      <h3>4) Create Conditions</h3>
+      Switch to the Conditions tab and create conditions which are used to replace placeholders in cells.
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/10_conditions_start.png">
+              <img class="img-responsive" src="static/img/10_conditions_start.png" alt="Conditions Start" style="width:100%">
+              <div class="caption">
+                <p>(10) Time to create some conditions for our study.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/11_condition_pydoc.png">
+              <img class="img-responsive" src="static/img/11_condition_pydoc.png" alt="Condition Pydoc" style="width:100%">
+              <div class="caption">
+                <p>(11) The official python documentation is our first condition. The website and URL values are going to replace the %website% and %url% placeholders we used earlier in our introduction cell. Placeholders can also be used in code cells to e.g. import different libraries depending on condition.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/12_condition_SO.png">
+              <img class="img-responsive" src="static/img/12_condition_SO.png" alt="Condition SO" style="width:100%">
+              <div class="caption">
+                <p>(12) Our second condition is Stack Overflow. Keep in mind this is just an example and do not think to much about the merit of this study.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <br>
+      <h3>5) Generate Notebooks</h3>
+      The last step is to generate the notebooks. Switch to the Notebooks tab and create a new notebook template. You can now select which tasks should be included in this notebook file.
+      You can also select if certain tasks should be at a fixed position. The intro should always be fixed to the first position, followed by tasks in latin squares order.
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/13_template_start.png">
+              <img class="img-responsive" src="static/img/13_template_start.png" alt="Template start" style="width:100%">
+              <div class="caption">
+                <p>(13) The actual notebook files are created from notebook templates.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/14_template_edit.png">
+              <img class="img-responsive" src="static/img/14_template_edit.png" alt="Template edit" style="width:100%">
+              <div class="caption">
+                <p>(14) We set rules for the task order. We want our introduction to always come first, but the order of the tasks after that should be varied according to the Latin Squares method.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/15_templates.png">
+              <img class="img-responsive" src="static/img/15_templates.png" alt="Templates" style="width:100%">
+              <div class="caption">
+                <p>(15) Click on Generate to create notebook files from the template.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/16_generator.png">
+              <img class="img-responsive" src="static/img/16_generator.png" alt="Generator" style="width:100%">
+              <div class="caption">
+                <p>(16) Here we can select the conditions we want to use. Clicking on refresh shows us which files will be generated from the options we selected before we actually generate the files. The task order in each notebook is shown in brackets in the filename.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <br>
+      <h3>6) Jupyter</h3>
+      After generating the notebook file, it can be used with Jupyter.
+      <div class="row">
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <a href="static/img/17_jupyter.png">
+              <img class="img-responsive" src="static/img/17_jupyter.png" alt="An example notebook" style="width:100%">
+              <div class="caption">
+                <p>(17) This is how a sample study would look like.</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="limesurvey.html">Continue with LimeSurvey</a>
+      <br><br>
+  </body>
+
+  </html>

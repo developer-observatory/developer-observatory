@@ -27,12 +27,16 @@
 <p>
 <ul>
 <li>An Amazon AWS account</li>
+<li>Created tasks (Jupyter notebook "ipynb" and "sql" files in the <em> task_generation/generated</em> folder</li>
 <li>Target URL where the landing server will listen</li>
 </ul>
 </p>
 
 <h3>Preparations:</h3>
-Boot an EC2 instance with a clean Ubuntu image. Tiny will suffice to configure the instance, however if you are still using the free tier, you can also use the micro instances and take advantage of the free hours.
+<ul>
+  <li><a href="https://aws.amazon.com/getting-started/tutorials/launch-a-virtual-machine/" target="_blank">Boot an EC2 instance with a clean Ubuntu image.</a> Tiny will suffice to configure the instance, however if you are still using the free tier, you can also use the micro instances and take advantage of the free hours.</li>
+  <li>Note down the IPv4 Public IP</li>
+</ul>
 
 <br>
 <h3>1) Configuring the target URL</h3>
@@ -88,7 +92,8 @@ Execute: sudo ./setupTaskServer.sh
   </div>
  </div>
 <br>
-<h3>5) Create a security group</h3>
+<h3>5) Note down the "AMI ID".</h3>
+<h3>6) Create a security group</h3>
 Now you'll need to create a security group for the instances.
 The security group should be set to:
 Inbound:
