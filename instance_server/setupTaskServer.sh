@@ -70,7 +70,7 @@ apt-get -qq -y install python-pip python-flask python-requests
 echo "[TaskInstance][pip] Upgrading pip to latest version"
 pip install --quiet --upgrade pip
 echo "[TaskInstance][pip] Installing jupyter"
-pip install --quiet 'notebook==4.2.3'
+pip install --quiet jupyter
 
 echo "[TaskInstance] Checking if user 'jupyter' exists"
 user_exists=$(id -u jupyter > /dev/null 2>&1; echo $?) 
@@ -121,6 +121,7 @@ echo "[TaskInstance] Copying task related files..."
 
 #Ensure the jupyter folder exists
 mkdir -p /home/jupyter/.jupyter/custom/
+mkdir -p /home/jupyter/.jupyter/nbconfig/
 
 #Change ownership of the jupyter folder to the jupyter user, otherwise jupyter won't be able to start
 chown -R jupyter:jupyter /home/jupyter
@@ -128,6 +129,8 @@ cp template/custom.js /home/jupyter/.jupyter/custom/custom.js
 sed -i "s|$urlPlaceHolder|$landingURL|g" /home/jupyter/.jupyter/custom/custom.js
 sed -i "s|$skippedUrlPlaceHolder|$skippedTaskSurveyURL|g" /home/jupyter/.jupyter/custom/custom.js
 sed -i "s|$taskCountPlaceHolder|$taskCount|g" /home/jupyter/.jupyter/custom/custom.js
+cp template/custom.css /home/jupyter/.jupyter/custom/custom.css
+cp template/nbconfig/notebook.json /home/jupyter/.jupyter/nbconfig/notebook.json
 
 cp template/notebook.html /usr/local/lib/python2.7/dist-packages/notebook/templates/notebook.html
 cp config/jupyter_notebook_config.py /home/jupyter/.jupyter/jupyter_notebook_config.py
