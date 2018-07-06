@@ -10,7 +10,9 @@
 #URL to the exit survey
 finalSurveyURL="<surveyUrl>"
 
+#The amount of instances that can be started by a single IP.
 dailyMaxInstances="2"
+#The amount of participants that may start the study - Signing the consent form counts as starting
 maxInstances="200"
 
 #Register API keys at https://www.google.com/recaptcha/admin
@@ -20,12 +22,15 @@ recaptchaSecret='6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
 
 #AWS Credentials
 awsLang='en'
+#Amazon access tokens
 awsAccessKey=''
 awsSecretKey=''
+#Region to start the instances in: https://gist.github.com/neilstuartcraig/0ccefcf0887f29b7f240
 awsRegion='us-east-1'
 
-# AWS Settings
+# AWS Settings for the task instance
 awsImageId='ami-<id>'
+#AWS instance types: https://aws.amazon.com/ec2/instance-types/
 awsInstanceType='t2.nano'
 awsSecurityGroupID='sg-<number>'
 awsSshKeyName='SSH Gateway' #You should put your ssh key here, incase that you want to connect to the instances
