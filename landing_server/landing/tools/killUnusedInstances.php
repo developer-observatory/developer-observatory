@@ -11,7 +11,7 @@ require_once(__DIR__."/../html/vendor/autoload.php");
 ignore_user_abort(true);
 
 $connect = new PDO("pgsql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
-$sth = $connect->prepare('SELECT ec2instance, instanceid FROM "createdInstances" WHERE heartbeat <= NOW() - \'3 hours\'::INTERVAL AND "instanceTerminated" is false AND instanceid != \'error\';');
+$sth = $connect->prepare('SELECT ec2instance, instanceid FROM "createdInstances" WHERE heartbeat <= NOW() - \'3 hours\'::INTERVAL AND "instanceTerminated" is false AND "terminated" is false AND instanceid != \'error\';');
 $sth->execute();
 $results = $sth->fetchAll(PDO::FETCH_BOTH);
 $now = new DateTime();
