@@ -11,5 +11,5 @@ $redisConn = new Redis();
 $redisConn->connect($redisIp);
 
 $redisConn->set($redisQueueBooting, 0);
-echo("Resetted boot counter");
+echo("Resetted boot counter\n");
 ?>
