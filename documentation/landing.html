@@ -45,8 +45,8 @@ The landing server will verify tokens for each participant and invalidate them a
 The protocol for this procedure is simple:
 <ul>
 <li>A token always consists of 2 parts, each being 12 letter long with only alpha-numeric values</li>
-<li>A URL is called to verify a token: <code>/gettoken/<string:token>/<string:token2></code>. The return value is either "Valid", "Expired" or "Invalid"</li>
-<li>A URL is called to invalidate a token after usage: <code>/settoken/<string:token>/<string:token2></code></li>
+<li>A URL is called to verify a token: <code>/gettoken/&lt;string:token&gt;/&lt;string:token2&gt;</code>. The return value is either "Valid", "Expired" or "Invalid"</li>
+<li>A URL is called to invalidate a token after usage: <code>/settoken/&lt;string:token&gt;/&lt;string:token2&gt;</code></li>
 </ul>
 
 A token server is not part of Developer Observatory. UIDs and tokens are expected to be 12 letter alpha numeric lowercase strings. You can generate such a token for example with <code>random = str(uuid.uuid4()).replace('-', '')[0:12]</code>. If you do not want to have a token management, then assign the UID and token randomly when a participant starts and create a URL that always returns <code>Valid</code>.
