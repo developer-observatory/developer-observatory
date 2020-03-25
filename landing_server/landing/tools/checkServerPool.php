@@ -71,6 +71,6 @@ if(($redisConn->lSize($redisQueue) + $redisConn->get($redisQueueBooting)) <= $po
     }
     $redisConn->decr($redisQueueBooting);
 }else{
-    echo("Enough instances running/booting");
+    echo("Enough instances running/booting\n");
 }
 ?>
