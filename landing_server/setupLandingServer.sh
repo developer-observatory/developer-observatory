@@ -38,8 +38,8 @@ awsSshKeyName='SSH Gateway' #You should put your ssh key here, incase that you w
 poolSize="1"
 
 #Dummy verifier, will always return Valid
-tokenGetUrl="https://userstudies.cs.uni-saarland.de/dummyToken/gettoken"
-tokenSetUrl="https://userstudies.cs.uni-saarland.de/dummyToken/settoken"
+tokenGetUrl="https://<domain>/dummyToken/gettoken"
+tokenSetUrl="https://<domain>/dummyToken/settoken"
 
 
 
@@ -94,8 +94,8 @@ if ! [ -x "$(command -v nginx)" ]; then
     apt-get -qq -y install nginx
 fi
 
-echo "[LandingServer][apt] Installing php7.0-fpm php-pgsql php-redis redis-server postgresql python-flask-sqlalchemy python-boto3 php-curl composer php-zip php-simplexml python-psycopg2"
-apt-get -qq -y install php7.0-fpm php-pgsql php-redis redis-server postgresql python-flask-sqlalchemy python-boto3 php-curl composer php-zip php-simplexml python-psycopg2
+echo "[LandingServer][apt] Installing php7.0-fpm php-pgsql php-redis redis-server postgresql python3-flask-sqlalchemy python3-boto3 php-curl composer php-zip php-simplexml python3-psycopg2"
+apt-get -qq -y install php7.0-fpm php-pgsql php-redis redis-server postgresql python3-flask-sqlalchemy python3-boto3 php-curl composer php-zip php-simplexml python3-psycopg2
 
 
 #Generate Passwords for the database in the first run. Replace in the files directly
