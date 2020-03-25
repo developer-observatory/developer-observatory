@@ -95,7 +95,7 @@ if ! [ -x "$(command -v nginx)" ]; then
 fi
 
 echo "[LandingServer][apt] Installing php7.0-fpm php-pgsql php-redis redis-server postgresql python3-flask-sqlalchemy python3-boto3 php-curl composer php-zip php-simplexml python3-psycopg2"
-apt-get -qq -y install php7.0-fpm php-pgsql php-redis redis-server postgresql python3-flask-sqlalchemy python3-boto3 php-curl composer php-zip php-simplexml python3-psycopg2
+apt-get -qq -y install php7.2-fpm php-pgsql php-redis redis-server postgresql python3-flask-sqlalchemy python3-boto3 php-curl composer php-zip php-simplexml python3-psycopg2
 
 
 #Generate Passwords for the database in the first run. Replace in the files directly
