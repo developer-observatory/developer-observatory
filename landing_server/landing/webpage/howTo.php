@@ -138,6 +138,7 @@ if(isset($_POST["g-recaptcha-response"])){
                         $sth->bindParam(':ip', $remoteIp);
                         $sth->bindParam(':userid', $token);
                         $sth->bindParam(':condition', $results['cond']);
+                        // $sth->bindParam(':condition', $resultsCond);
                         $sth->bindParam(':category', $resultsCat['category']);
                         $sth->execute();
                     }
@@ -165,6 +166,7 @@ if(isset($_POST["g-recaptcha-response"])){
                         $sth->bindParam(':userid', $token);
                         $sth->bindParam(':instanceid', $instanceId);
                         $sth->bindParam(':condition', $results['cond']);
+                        // $sth->bindParam(':condition', $resultsCond);
                         $sth->bindParam(':category', $resultsCat['category']);
                         $sth->execute();
                         
