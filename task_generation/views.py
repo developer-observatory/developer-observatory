@@ -588,26 +588,26 @@ def slugify(value):
 
 notebook_metadata = {
     "kernelspec": {
-        "display_name": "Python 2",
+        "display_name": "Python 3",
         "language": "python",
-        "name": "python2"
+        "name": "python3"
     },
     "language_info": {
         "codemirror_mode": {
             "name": "ipython",
-            "version": 2.0
+            "version": 3
         },
         "file_extension": ".py",
         "mimetype": "text/x-python",
         "name": "python",
         "nbconvert_exporter": "python",
-        "pygments_lexer": "ipython2",
-        "version": "2.7.9"
+        "pygments_lexer": "ipython3",
+        "version": "3.6.9"
     }
 }
 
 notebook_nbformat = 4
-notebook_nbformat_minor = 0
+notebook_nbformat_minor = 2
 
 latin_squares = {
     1: [[0]],

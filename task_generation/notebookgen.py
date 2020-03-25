@@ -34,4 +34,4 @@ if __name__ == '__main__':
     application, db_path = create_app()
     if not os.path.isfile(db_path):
         setup_db()
-    application.run(debug=True)
+    application.run(debug=False)
