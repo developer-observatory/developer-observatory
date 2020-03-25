@@ -110,7 +110,7 @@ c.NotebookApp.base_url = '/nb'
 #  connection, or for offline use of the notebook.
 #
 #  When disabled, equations etc. will appear as their untransformed TeX source.
-#c.NotebookApp.enable_mathjax = True
+c.NotebookApp.enable_mathjax = False
 
 ## extra paths to look for Javascript notebook extensions
 #c.NotebookApp.extra_nbextensions_path = []
@@ -173,7 +173,7 @@ c.NotebookApp.base_url = '/nb'
 
 ## Dict of Python modules to load as notebook server extensions.Entry values can
 #  be used to enable and disable the loading ofthe extensions.
-#c.NotebookApp.nbserver_extensions = {}
+c.NotebookApp.nbserver_extensions = {}
 
 ## The directory to use for notebooks and kernels.
 #c.NotebookApp.notebook_dir = u'/home/jupyter/notebooks/'
