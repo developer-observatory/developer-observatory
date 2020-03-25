@@ -65,12 +65,12 @@ if ! [ -x "$(command -v nginx)" ]; then
     apt-get -qq -y install nginx
 fi
 
-echo "[TaskInstance][apt] Installing pip, python-flask, python-requests from apt"
-apt-get -qq -y install python-pip python-flask python-requests
-echo "[TaskInstance][pip] Upgrading pip to latest version"
-pip install --quiet --upgrade pip
+echo "[TaskInstance][apt] Installing pip3, python3-flask, python3-requests from apt"
+apt-get -qq -y install python3-pip python3-flask python3-requests
+echo "[TaskInstance][pip] Upgrading pip3 to latest version"
+pip3 install --quiet --upgrade pip
 echo "[TaskInstance][pip] Installing jupyter"
-pip install --quiet jupyter
+pip3 install --quiet jupyter
 
 echo "[TaskInstance] Checking if user 'jupyter' exists"
 user_exists=$(id -u jupyter > /dev/null 2>&1; echo $?) 
@@ -92,7 +92,7 @@ echo "[TaskInstance][apt] Installing additional packages"
 apt-get -qq -y install $(cat apt-additional-packages.txt)
 
 echo "[TaskInstance][pip] Installing additional packages"
-pip install -r pip-additional-packages.txt
+pip3 install -r pip-additional-packages.txt
 
 echo "[TaskInstance] Stopping services..."
 service jupyter stop
@@ -132,7 +132,7 @@ sed -i "s|$taskCountPlaceHolder|$taskCount|g" /home/jupyter/.jupyter/custom/cust
 cp template/custom.css /home/jupyter/.jupyter/custom/custom.css
 cp template/nbconfig/notebook.json /home/jupyter/.jupyter/nbconfig/notebook.json
 
-cp template/notebook.html /usr/local/lib/python2.7/dist-packages/notebook/templates/notebook.html
+cp template/notebook.html /usr/local/lib/python3.6/dist-packages/notebook/templates/notebook.html
 cp config/jupyter_notebook_config.py /home/jupyter/.jupyter/jupyter_notebook_config.py
 cp config/nginxTaskServer.conf /etc/nginx/sites-enabled/default
 
