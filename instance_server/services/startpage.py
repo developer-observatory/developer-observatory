@@ -28,7 +28,7 @@ def init():
     #Check if a task file already exists on this instance
     if not os.path.isfile(target_file):
         #If not, then request data for this user from the landing page
-        task_file = urllib.URLopener()
+        task_file = urllib.request.URLopener()
         task_file.retrieve(remote_task_file+user_id+"/"+token, target_file)
         
     #Prepare the response to the client -> Redirect + set cookies for uid and token
