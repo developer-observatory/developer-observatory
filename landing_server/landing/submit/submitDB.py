@@ -106,12 +106,12 @@ def redirectToSurvey(userid, token):
     
 	# shut down the instance
     if row.terminated != 'true':
-		try:
-			ec2.instances.filter(InstanceIds=instanceid).terminate()
-			row.terminated = 'true'
-			db.session.commit()
-		except Exception as e:
-			print e
+        try:
+            ec2.instances.filter(InstanceIds=instanceid).terminate()
+            row.terminated = 'true'
+            db.session.commit()
+        except Exception as e:
+            print(e)
 
     url = "%finalSurveyURL%/?uid="+userid+"&tok="+token+"&newtest=Y"
     if(not (url.startswith("http://") or url.startswith("https://"))):
@@ -136,7 +136,7 @@ def submit():
             else:
                 return "Input exceeded max length"
         except Exception as e:
-            print e
+            print(e)
             db.session.rollback()
             return "Error inserting json payload into database."
             
