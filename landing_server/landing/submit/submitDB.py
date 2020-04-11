@@ -114,6 +114,8 @@ def redirectToSurvey(userid, token):
             print(e)
 
     url = "%finalSurveyURL%/?uid="+userid+"&tok="+token+"&newtest=Y"
+    # use this line below if your survey url already consists a query
+    # url = "%finalSurveyURL%&uid="+userid+"&tok="+token
     if(not (url.startswith("http://") or url.startswith("https://"))):
         url = "https://" + url
     return redirect(url, code=302)
