@@ -470,7 +470,7 @@ def generate_notebook_files(notebook, fileprefix=None, include_fixed=True, condi
                     files_new[new_filename] = copy.deepcopy(content)
                     reordered_cells = []
                     for idx in task_order:
-                        reordered_cells.extend(tasks_cells[idx])
+                        reordered_cells.extend(copy.deepcopy(tasks_cells[idx]))
                     files_new[new_filename]['cells'].extend(reordered_cells)
                     replace_ops_new[new_filename] = copy.deepcopy(task_replace_ops[filename])
                     for (idx, task_idx) in enumerate(task_order):
