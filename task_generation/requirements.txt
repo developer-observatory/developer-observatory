@@ -4,7 +4,7 @@ Flask-Markdown==0.3
 Flask-SQLAlchemy==2.2
 Flask-WTF==0.14.2
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.11.3
 Markdown==2.6.8
 MarkupSafe==1.0
 Pygments==2.2.0
